@@ -11,12 +11,21 @@ if (!fs.existsSync(folderPath)) {
 
 
 
+const getISTTime = () => {
+    const now = new Date();
+    const utcTime = now.getTime() + now.getTimezoneOffset() * 60000;
+    const istOffset = 5.5 * 60 * 60 * 1000; // IST offset in milliseconds
+    const istTime = new Date(utcTime + istOffset);
+  
+    return istTime;
+  };
 // Endpoint to create a text file with current timestamp
 app.get('/createFile', (req, res) => {
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const istTime = getISTTime();
+    const timestamp = istTime.toISOString().replace(/[:.]/g, '-');
     const fileName = `${timestamp}.txt`;
     const filePath = path.join(folderPath, fileName);
-    const fileContent = new Date().toString();
+    const fileContent = istTime.toString();
   
     fs.writeFile(filePath, fileContent, (err) => {
       if (err) {
