@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const app = express();
 const path = require('path');
+const port = process.env.PORT || 4000;
 
 const folderPath = path.join(__dirname, 'files');
 if (!fs.existsSync(folderPath)) {
@@ -71,7 +72,7 @@ app.get('/getTextFiles', (req, res) => {
     });
   });
   
+app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`)
+  })
   
-app.listen(3001, '127.0.0.1', () => {
-    console.log('Listening on 127.0.0.1:3001');
-  });
